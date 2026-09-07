@@ -1,55 +1,60 @@
 {% extends 'news/base.html' %}
 
-{% block title %}Latest Stories - The Wireframe Journal{% endblock %}
-
 {% block content %}
-<div class="mb-8">
-    <div class="flex flex-wrap gap-2">
-        {% for cat in categories %}
-            <a href="{% url 'category_articles' cat.slug %}" 
-               class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm transition">
-                {{ cat.name }}
-            </a>
+<!-- Category Navigation Bar -->
+<div class="category-wrapper">
+    <nav class="category-nav">
+        <a href="/" class="active">All Stories</a>
+        {% for category in categories %}
+            <a href="?category={{ category.id }}">{{ category.name }}</a>
         {% empty %}
-            <p class="text-gray-500 text-sm">No categories available yet.</p>
+            <a href="#">Fashion and Designing</a>
+            <a href="#">Entertainment</a>
+            <a href="#">Sports</a>
+            <a href="#">Business</a>
+            <a href="#">Technology</a>
+            <a href="#">Market</a>
+            <a href="#">Legal</a>
+            <a href="#">Sustainability</a>
         {% endfor %}
-    </div>
+    </nav>
 </div>
 
-<h2 class="text-2xl font-bold text-gray-900 mb-6">Latest Stories</h2>
+<!-- Main Heading -->
+<h2 class="section-title">Latest Stories</h2>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- News Grid Layout -->
+<div class="article-grid">
     {% for article in articles %}
-        <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden flex flex-col justify-between">
-            <div>
-                {% if article.featured_image %}
-                    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full h-48 object-cover">
+        <article class="article-card">
+            <div class="card-image-wrapper">
+                {% if article.image %}
+                    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="card-image">
                 {% else %}
-                    <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-400 font-semibold">
-                        No Image
+                    <div class="card-image-placeholder">
+                        <span>The WireFrame Journal</span>
                     </div>
                 {% endif %}
-                <div class="p-5">
-                    <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider">
-                        {{ article.category.name }}
-                    </span>
-                    <h3 class="text-xl font-bold text-gray-900 mt-2 hover:text-blue-600 transition">
-                        <a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a>
-                    </h3>
-                    <p class="text-gray-600 text-sm mt-2">
-                        {{ article.summary }}
-                    </p>
+                {% if article.category %}
+                    <span class="category-badge">{{ article.category.name }}</span>
+                {% endif %}
+            </div>
+
+            <div class="card-content">
+                <h3 class="card-title">
+                    <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+                </h3>
+                <p class="card-excerpt">{{ article.content|truncatewords:20 }}</p>
+                
+                <div class="card-meta">
+                    <span class="author">By {{ article.author.username|default:"Editorial Staff" }}</span>
+                    <span class="dot">•</span>
+                    <span class="date">{{ article.created_at|date:"M d, Y" }}</span>
                 </div>
             </div>
-            <div class="p-5 pt-0 text-xs text-gray-500 flex justify-between items-center">
-                <span>By {{ article.author.username }}</span>
-                <span>{{ article.created_at|date:"M d, Y" }}</span>
-            </div>
-        </div>
+        </article>
     {% empty %}
-        <div class="col-span-full bg-white p-8 rounded-lg shadow text-center text-gray-500">
-            No published articles yet. Add articles via the <a href="/admin/" class="text-blue-600 underline">Admin Portal</a>.
-        </div>
+        <p class="no-articles">No stories published yet.</p>
     {% endfor %}
 </div>
 {% endblock %}
