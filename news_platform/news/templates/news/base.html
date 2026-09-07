@@ -5,16 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Site Title & Browser Favicon / Tab Logo -->
+    <!-- Site Title & Favicon -->
     <title>The WireFrame Journal</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'images/logo.png' %}">
 
-    <!-- Primary SEO Meta Tags -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SEO & Social Branding -->
     <meta name="title" content="The WireFrame Journal">
     <meta name="description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
-
-    <!-- Open Graph / Search & Social Media Branding -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="The WireFrame Journal">
     <meta property="og:url" content="https://wireframejournal.onrender.com/">
@@ -22,7 +25,7 @@
     <meta property="og:description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
     <meta property="og:image" content="https://wireframejournal.onrender.com/static/images/logo.png">
 
-    <!-- Structured Data JSON-LD for Search Engine Logo & Branding -->
+    <!-- Search Engine Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -33,93 +36,192 @@
     }
     </script>
 
-    <!-- Embedded Modern Layout Styles -->
     <style>
+        :root {
+            --primary-black: #0f172a;
+            --accent-red: #dc2626;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f8f9fa;
-            color: #212529;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             line-height: 1.6;
         }
 
-        /* Navbar Styling */
-        .navbar {
-            background-color: #000000;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        /* Top Bar Date/Tagline */
+        .top-bar {
+            background-color: var(--primary-black);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding: 6px 0;
+            border-bottom: 1px solid #1e293b;
         }
 
-        .navbar-brand a {
-            color: #ffffff;
-            text-decoration: none;
+        .top-bar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Main Header Navigation */
+        .main-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
             font-weight: 700;
-            font-size: 1.5rem;
+            color: var(--primary-black);
+            text-decoration: none;
             letter-spacing: -0.5px;
         }
 
-        /* Container Layout */
-        .main-container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
+        .brand-logo span {
+            color: var(--accent-red);
         }
 
-        /* Category Links Bar */
+        /* Category Navigation Pills */
+        .category-wrapper {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+        }
+
         .category-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #e9ecef;
+            gap: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            display: none;
         }
 
         .category-nav a {
-            color: #495057;
+            color: var(--text-muted);
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
-            padding: 4px 8px;
-            border-radius: 4px;
-            transition: all 0.2s;
+            font-size: 0.88rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background-color: #f1f5f9;
+            transition: all 0.2s ease;
         }
 
         .category-nav a:hover {
-            color: #000000;
-            background-color: #e9ecef;
+            color: #ffffff;
+            background-color: var(--primary-black);
+        }
+
+        /* Main Content Grid */
+        .main-container {
+            max-width: 1200px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+            min-height: 70vh;
+        }
+
+        .section-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-black);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 22px;
+            background-color: var(--accent-red);
+            border-radius: 2px;
         }
 
         /* Footer */
         footer {
+            background-color: var(--primary-black);
+            color: #94a3b8;
+            padding: 3rem 1.5rem 2rem;
+            margin-top: 5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
             text-align: center;
-            padding: 2rem 1rem;
-            background-color: #ffffff;
-            border-top: 1px solid #dee2e6;
-            margin-top: 4rem;
-            color: #6c757d;
-            font-size: 0.9rem;
+        }
+
+        .footer-title {
+            font-family: 'Merriweather', serif;
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-copy {
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="navbar-brand">
-            <a href="/">The WireFrame Journal</a>
+    <!-- Top Utility Bar -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <span>{% now "EEEE, MMMM d, Y" %}</span>
+            <span>The WireFrame Journal Digital Edition</span>
         </div>
-    </nav>
+    </div>
 
-    <!-- Main Content -->
+    <!-- Header / Brand -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="/" class="brand-logo">
+                The WireFrame <span>Journal</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Content Area -->
     <main class="main-container">
         {% block content %}
         {% endblock %}
@@ -127,7 +229,10 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; {% now "Y" %} The WireFrame Journal. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-title">The WireFrame Journal</div>
+            <p class="footer-copy">&copy; {% now "Y" %} The WireFrame Journal. All rights reserved.</p>
+        </div>
     </footer>
 
 </body>
