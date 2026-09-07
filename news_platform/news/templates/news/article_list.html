@@ -1,60 +1,79 @@
 {% extends 'news/base.html' %}
 
 {% block content %}
-<!-- Category Navigation Bar -->
-<div class="category-wrapper">
-    <nav class="category-nav">
-        <a href="/" class="active">All Stories</a>
-        {% for category in categories %}
-            <a href="?category={{ category.id }}">{{ category.name }}</a>
+<style>
+    /* 3-Column CNN News Layout */
+    .cnn-grid {
+        display: grid;
+        grid-template-columns: 280px 1fr 300px;
+        gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+        .cnn-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Column Styles */
+    .col-left { border-right: 1px solid var(--border-gray); padding-right: 16px; }
+    .col-center { padding: 0 8px; }
+    .col-right { border-left: 1px solid var(--border-gray); padding-left: 16px; }
+
+    .story-card { margin-bottom: 20px; text-decoration: none; color: inherit; display: block; }
+    .story-card img { width: 100%; height: auto; object-fit: cover; border-radius: 2px; }
+    .story-card h3 { font-size: 18px; font-weight: bold; margin: 8px 0; line-height: 1.3; }
+    .story-card h3:hover { text-decoration: underline; }
+    .story-card p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+    
+    .hero-story h2 { font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+    .hero-story img { width: 100%; max-height: 380px; object-fit: cover; margin-bottom: 12px; }
+</style>
+
+<div class="cnn-grid">
+    <!-- Left Column -->
+    <div class="col-left">
+        {% for article in articles|slice:":2" %}
+            <a href="{% url 'article_detail' article.id %}" class="story-card">
+                {% if article.image %}<img src="{{ article.image.url }}" alt="">{% endif %}
+                <h3>{{ article.title }}</h3>
+                <p>{{ article.content|truncatewords:12 }}</p>
+            </a>
         {% empty %}
-            <a href="#">Fashion and Designing</a>
-            <a href="#">Entertainment</a>
-            <a href="#">Sports</a>
-            <a href="#">Business</a>
-            <a href="#">Technology</a>
-            <a href="#">Market</a>
-            <a href="#">Legal</a>
-            <a href="#">Sustainability</a>
+            <div class="story-card">
+                <h3>Democrats might win in the midterms — but a whole new set of problems awaits</h3>
+            </div>
         {% endfor %}
-    </nav>
-</div>
+    </div>
 
-<!-- Main Heading -->
-<h2 class="section-title">Latest Stories</h2>
-
-<!-- News Grid Layout -->
-<div class="article-grid">
-    {% for article in articles %}
-        <article class="article-card">
-            <div class="card-image-wrapper">
-                {% if article.image %}
-                    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="card-image">
-                {% else %}
-                    <div class="card-image-placeholder">
-                        <span>The WireFrame Journal</span>
-                    </div>
-                {% endif %}
-                {% if article.category %}
-                    <span class="category-badge">{{ article.category.name }}</span>
-                {% endif %}
-            </div>
-
-            <div class="card-content">
-                <h3 class="card-title">
-                    <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
-                </h3>
-                <p class="card-excerpt">{{ article.content|truncatewords:20 }}</p>
-                
-                <div class="card-meta">
-                    <span class="author">By {{ article.author.username|default:"Editorial Staff" }}</span>
-                    <span class="dot">•</span>
-                    <span class="date">{{ article.created_at|date:"M d, Y" }}</span>
+    <!-- Center Hero Column -->
+    <div class="col-center">
+        {% with hero=articles|first %}
+            {% if hero %}
+                <a href="{% url 'article_detail' hero.id %}" class="story-card hero-story">
+                    <h2>{{ hero.title }}</h2>
+                    {% if hero.image %}<img src="{{ hero.image.url }}" alt="">{% endif %}
+                    <p style="font-size: 15px; color: #333;">{{ hero.content|truncatewords:30 }}</p>
+                </a>
+            {% else %}
+                <div class="story-card hero-story">
+                    <h2>The far-right party's vision for the future</h2>
+                    <p>After surging to first place in local elections, policies are being pushed across all major sectors.</p>
                 </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Right Sidebar Column -->
+    <div class="col-right">
+        <h4 style="font-size: 14px; text-transform: uppercase; border-bottom: 2px solid var(--cnn-red); padding-bottom: 4px; margin-bottom: 12px;">Top News</h4>
+        {% for article in articles|slice:"2:" %}
+            <a href="{% url 'article_detail' article.id %}" class="story-card">
+                <h3>{{ article.title }}</h3>
+            </a>
+        {% empty %}
+            <div class="story-card">
+                <h3>Catch up on today's global news and analysis</h3>
             </div>
-        </article>
-    {% empty %}
-        <p class="no-articles">No stories published yet.</p>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

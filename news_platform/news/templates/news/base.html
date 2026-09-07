@@ -4,318 +4,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>The WireFrame Journal</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/logo.png' %}">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- SEO & Social Meta -->
-    <meta name="title" content="The WireFrame Journal">
-    <meta name="description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="The WireFrame Journal">
-    <meta property="og:url" content="https://wireframejournal.onrender.com/">
-    <meta property="og:title" content="The WireFrame Journal">
-    <meta property="og:description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
-    <meta property="og:image" content="https://wireframejournal.onrender.com/static/images/logo.png">
 
     <style>
         :root {
-            --primary-black: #0f172a;
-            --accent-red: #dc2626;
-            --bg-light: #f8fafc;
-            --card-bg: #ffffff;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --cnn-red: #cc0000;
+            --border-gray: #e6e6e6;
+            --text-dark: #111111;
+            --text-muted: #666666;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+        body { background-color: #ffffff; color: var(--text-dark); }
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            line-height: 1.6;
-        }
-
-        /* Top Bar */
-        .top-bar {
-            background-color: var(--primary-black);
-            color: #94a3b8;
-            font-size: 0.8rem;
-            padding: 6px 0;
-            border-bottom: 1px solid #1e293b;
-        }
-
-        .top-bar-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Navigation Header */
-        .main-header {
-            background-color: #ffffff;
-            border-bottom: 1px solid var(--border-color);
+        /* Header Navigation */
+        header {
+            border-bottom: 1px solid var(--border-gray);
             position: sticky;
             top: 0;
+            background: #fff;
             z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .header-container {
-            max-width: 1200px;
+            max-width: 1350px;
             margin: 0 auto;
-            padding: 1.2rem 1.5rem;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
+            padding: 0 16px;
+            height: 56px;
         }
 
-        .brand-logo {
-            font-family: 'Merriweather', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-black);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
+        .left-nav { display: flex; align-items: center; gap: 16px; }
 
-        .brand-logo span {
-            color: var(--accent-red);
-        }
-
-        /* Categories */
-        .category-wrapper {
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-        }
-
-        .category-nav {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 4px 0;
-        }
-
-        .category-nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            padding: 6px 16px;
-            border-radius: 20px;
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-        }
-
-        .category-nav a:hover, .category-nav a.active {
-            color: #ffffff;
-            background-color: var(--primary-black);
-            border-color: var(--primary-black);
-        }
-
-        /* Main Container */
-        .main-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-            min-height: 70vh;
-        }
-
-        .section-title {
-            font-family: 'Merriweather', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary-black);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 22px;
-            background-color: var(--accent-red);
-            border-radius: 2px;
-        }
-
-        /* Article Cards Grid */
-        .article-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .article-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .article-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-        }
-
-        .card-image-wrapper {
-            position: relative;
-            height: 200px;
-            background-color: #cbd5e1;
-        }
-
-        .card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card-image-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            color: #ffffff;
-            font-family: 'Merriweather', serif;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        .category-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background-color: var(--accent-red);
-            color: #ffffff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 4px;
-        }
-
-        .card-content {
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .card-title {
-            font-family: 'Merriweather', serif;
-            font-size: 1.2rem;
-            line-height: 1.4;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-title a {
-            color: var(--primary-black);
-            text-decoration: none;
-        }
-
-        .card-title a:hover {
-            color: var(--accent-red);
-        }
-
-        .card-excerpt {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1.25rem;
-            flex-grow: 1;
-        }
-
-        .card-meta {
-            font-size: 0.8rem;
-            color: #94a3b8;
+        /* Hamburger Button */
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 4px 8px;
+            color: var(--text-dark);
             display: flex;
             align-items: center;
             gap: 6px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 0.75rem;
         }
 
-        .card-meta .dot {
-            font-size: 0.5rem;
+        .brand-logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--cnn-red);
+            text-decoration: none;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
         }
 
-        /* Footer */
-        footer {
-            background-color: var(--primary-black);
-            color: #94a3b8;
-            padding: 3rem 1.5rem;
-            margin-top: 5rem;
+        .category-links {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+            margin-left: 10px;
         }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
+        .category-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: bold;
         }
 
-        .footer-title {
-            font-family: 'Merriweather', serif;
-            color: #ffffff;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+        .category-links a:hover { color: var(--cnn-red); }
+
+        .right-nav { display: flex; align-items: center; gap: 16px; font-size: 14px; }
+        .sign-in-btn {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: bold;
+            border: 1px solid var(--text-dark);
+            padding: 4px 12px;
+            border-radius: 2px;
         }
 
-        .footer-copy {
-            font-size: 0.85rem;
+        /* Slide Drawer Overlay */
+        .drawer-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 2000;
         }
+
+        /* Side Drawer */
+        .side-drawer {
+            position: fixed;
+            top: 0; left: -320px;
+            width: 300px; height: 100%;
+            background: #111;
+            color: #fff;
+            transition: left 0.3s ease;
+            z-index: 2001;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .close-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+        .drawer-section { margin-bottom: 24px; }
+        .drawer-section h4 { color: #888; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
+        .drawer-section ul { list-style: none; }
+        .drawer-section ul li { margin-bottom: 12px; }
+        .drawer-section ul li a { color: #fff; text-decoration: none; font-weight: bold; font-size: 15px; }
+        .drawer-section ul li a:hover { color: var(--cnn-red); }
+
+        /* Main Container */
+        .main-wrapper { max-width: 1350px; margin: 20px auto; padding: 0 16px; }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <div class="top-bar-inner">
-            <span>{% now "EEEE, MMMM d, Y" %}</span>
-            <span>The WireFrame Journal Digital Edition</span>
+    <!-- Slide Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+    <aside class="side-drawer" id="sideDrawer">
+        <div class="drawer-header">
+            <span style="font-weight: bold; font-size: 18px; color: var(--cnn-red);">WIRE FRAME</span>
+            <button class="close-btn" onclick="toggleDrawer()">&times;</button>
         </div>
-    </div>
 
-    <header class="main-header">
+        <div class="drawer-section">
+            <h4>Categories</h4>
+            <ul>
+                <li><a href="/">Home</a></li>
+                {% for category in categories %}
+                    <li><a href="?category={{ category.id }}">{{ category.name }}</a></li>
+                {% empty %}
+                    <li><a href="#">Fashion & Designing</a></li>
+                    <li><a href="#">Entertainment</a></li>
+                    <li><a href="#">Sports</a></li>
+                    <li><a href="#">Business</a></li>
+                    <li><a href="#">Technology</a></li>
+                    <li><a href="#">Market</a></li>
+                    <li><a href="#">Legal</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="drawer-section">
+            <h4>Account & Management</h4>
+            <ul>
+                <li><a href="/admin">Admin Portal</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Header -->
+    <header>
         <div class="header-container">
-            <a href="/" class="brand-logo">
-                The WireFrame <span>Journal</span>
-            </a>
+            <div class="left-nav">
+                <button class="menu-btn" onclick="toggleDrawer()">&#9776;</button>
+                <a href="/" class="brand-logo">WJ</a>
+                <ul class="category-links">
+                    <li><a href="#">Fashion</a></li>
+                    <li><a href="#">Entertainment</a></li>
+                    <li><a href="#">Sports</a></li>
+                    <li><a href="#">Business</a></li>
+                    <li><a href="#">Tech</a></li>
+                    <li><a href="#">Legal</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+            <div class="right-nav">
+                <a href="/admin" class="sign-in-btn">Sign In</a>
+            </div>
         </div>
     </header>
 
-    <main class="main-container">
-        {% block content %}
-        {% endblock %}
+    <main class="main-wrapper">
+        {% block content %}{% endblock %}
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-title">The WireFrame Journal</div>
-            <p class="footer-copy">&copy; {% now "Y" %} The WireFrame Journal. All rights reserved.</p>
-        </div>
-    </footer>
-
+    <script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('sideDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            if (drawer.style.left === '0px') {
+                drawer.style.left = '-320px';
+                overlay.style.display = 'none';
+            } else {
+                drawer.style.left = '0px';
+                overlay.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
