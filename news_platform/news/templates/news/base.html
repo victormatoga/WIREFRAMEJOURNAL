@@ -9,23 +9,21 @@
 
     <style>
         :root {
-            --brand-red: #cc0000;
+            --cnn-red: #cc0000;
             --border-gray: #e6e6e6;
-            --text-black: #000000;
             --text-dark: #111111;
             --text-muted: #666666;
-            --bg-light: #f4f4f4;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
-        body { background-color: #ffffff; color: var(--text-dark); position: relative; }
+        body { background-color: #ffffff; color: var(--text-dark); }
 
         /* Header Navigation */
         header {
             border-bottom: 1px solid var(--border-gray);
             position: sticky;
             top: 0;
-            background: #ffffff;
+            background: #fff;
             z-index: 1000;
         }
 
@@ -41,25 +39,28 @@
 
         .left-nav { display: flex; align-items: center; gap: 16px; }
 
-        /* Hamburger / Close Toggle Button */
+        /* Hamburger Button */
         .menu-btn {
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
             padding: 4px 8px;
             color: var(--text-dark);
             display: flex;
             align-items: center;
+            gap: 6px;
         }
 
         .brand-logo {
             font-size: 26px;
             font-weight: 900;
-            color: var(--brand-red);
+            color: var(--cnn-red);
             text-decoration: none;
             letter-spacing: -1px;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
         }
 
         .category-links {
@@ -76,7 +77,7 @@
             font-weight: bold;
         }
 
-        .category-links a:hover { color: var(--brand-red); }
+        .category-links a:hover { color: var(--cnn-red); }
 
         .right-nav { display: flex; align-items: center; gap: 16px; font-size: 14px; }
         .sign-in-btn {
@@ -88,156 +89,91 @@
             border-radius: 2px;
         }
 
-        /* Full-Width Overlay Navigation Panel */
-        .mega-menu-overlay {
+        /* Slide Drawer Overlay */
+        .drawer-overlay {
             position: fixed;
-            top: 57px;
-            left: 0;
-            width: 100%;
-            height: calc(100vh - 57px);
-            background: #ffffff;
-            z-index: 999;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
             display: none;
+            z-index: 2000;
+        }
+
+        /* Side Drawer */
+        .side-drawer {
+            position: fixed;
+            top: 0; left: -320px;
+            width: 300px; height: 100%;
+            background: #111;
+            color: #fff;
+            transition: left 0.3s ease;
+            z-index: 2001;
+            padding: 24px;
             overflow-y: auto;
-            border-top: 1px solid var(--border-gray);
         }
 
-        .mega-menu-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px 60px;
-        }
-
-        /* Search Bar */
-        .search-box-wrapper {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 14px 45px 14px 18px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            outline: none;
-        }
-
-        .search-input:focus {
-            border-color: var(--text-black);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            color: #555;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Top Edition Section */
-        .edition-row {
+        .drawer-header {
             display: flex;
-            gap: 40px;
+            justify-content: space-between;
             align-items: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-gray);
-            margin-bottom: 30px;
-            font-size: 14px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
         }
 
-        .edition-row strong {
-            font-size: 16px;
-            font-weight: 800;
-        }
+        .close-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+        .drawer-section { margin-bottom: 24px; }
+        .drawer-section h4 { color: #888; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
+        .drawer-section ul { list-style: none; }
+        .drawer-section ul li { margin-bottom: 12px; }
+        .drawer-section ul li a { color: #fff; text-decoration: none; font-weight: bold; font-size: 15px; }
+        .drawer-section ul li a:hover { color: var(--cnn-red); }
 
-        .edition-row a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-        }
-
-        /* Multi-Column Category Links */
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        @media (max-width: 900px) {
-            .categories-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        .category-col h3 {
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            color: var(--text-black);
-        }
-
-        .category-col ul {
-            list-style: none;
-        }
-
-        .category-col ul li {
-            margin-bottom: 8px;
-        }
-
-        .category-col ul li a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 14px;
-            transition: color 0.15s;
-        }
-
-        .category-col ul li a:hover {
-            color: var(--brand-red);
-        }
-
-        /* Footer inside overlay */
-        .mega-menu-footer {
-            border-top: 1px solid var(--border-gray);
-            padding-top: 30px;
-            text-align: center;
-        }
-
-        .social-heading {
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 20px;
-            margin-bottom: 25px;
-        }
-
-        .social-icons a {
-            color: var(--text-dark);
-            text-decoration: none;
-        }
-
-        /* Content Container */
+        /* Main Container */
         .main-wrapper { max-width: 1350px; margin: 20px auto; padding: 0 16px; }
     </style>
 </head>
 <body>
 
+    <!-- Slide Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+    <aside class="side-drawer" id="sideDrawer">
+        <div class="drawer-header">
+            <span style="font-weight: bold; font-size: 18px; color: var(--cnn-red);">WIRE FRAME</span>
+            <button class="close-btn" onclick="toggleDrawer()">&times;</button>
+        </div>
+
+        <div class="drawer-section">
+            <h4>Categories</h4>
+            <ul>
+                <li><a href="/">Home</a></li>
+                {% for category in categories %}
+                    <li><a href="?category={{ category.id }}">{{ category.name }}</a></li>
+                {% empty %}
+                    <li><a href="#">Fashion & Designing</a></li>
+                    <li><a href="#">Entertainment</a></li>
+                    <li><a href="#">Sports</a></li>
+                    <li><a href="#">Business</a></li>
+                    <li><a href="#">Technology</a></li>
+                    <li><a href="#">Market</a></li>
+                    <li><a href="#">Legal</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="drawer-section">
+            <h4>Account & Management</h4>
+            <ul>
+                <li><a href="/admin">Admin Portal</a></li>
+            </ul>
+        </div>
+    </aside>
+
     <!-- Header -->
     <header>
         <div class="header-container">
             <div class="left-nav">
-                <button class="menu-btn" id="menuToggleBtn" onclick="toggleMegaMenu()">&#9776;</button>
+                <button class="menu-btn" onclick="toggleDrawer()">&#9776;</button>
                 <a href="/" class="brand-logo">WJ</a>
                 <ul class="category-links">
                     <li><a href="#">Fashion</a></li>
@@ -255,104 +191,20 @@
         </div>
     </header>
 
-    <!-- Full Width Mega Overlay Menu -->
-    <div class="mega-menu-overlay" id="megaMenu">
-        <div class="mega-menu-container">
-            
-            <!-- Search Bar -->
-            <form action="/" method="GET" class="search-box-wrapper">
-                <input type="text" name="q" class="search-input" placeholder="Search The WireFrame Journal...">
-                <button type="submit" class="search-icon">&#128080;</button>
-            </form>
-
-            <!-- Edition Bar -->
-            <div class="edition-row">
-                <strong>Edition</strong>
-                <a href="/">Global</a>
-                <a href="/">Africa</a>
-                <a href="/">US</a>
-                <a href="/">UK</a>
-            </div>
-
-            <!-- Categories Columns -->
-            <div class="categories-grid">
-                <div class="category-col">
-                    <h3>World & Business</h3>
-                    <ul>
-                        <li><a href="#">Business</a></li>
-                        <li><a href="#">Market</a></li>
-                        <li><a href="#">Tech & Innovation</a></li>
-                        <li><a href="#">Sustainability</a></li>
-                    </ul>
-                </div>
-
-                <div class="category-col">
-                    <h3>Lifestyle & Culture</h3>
-                    <ul>
-                        <li><a href="#">Fashion & Designing</a></li>
-                        <li><a href="#">Entertainment</a></li>
-                        <li><a href="#">Style</a></li>
-                        <li><a href="#">Travel</a></li>
-                    </ul>
-                </div>
-
-                <div class="category-col">
-                    <h3>Sports & Media</h3>
-                    <ul>
-                        <li><a href="#">Football</a></li>
-                        <li><a href="#">Motorsport</a></li>
-                        <li><a href="#">Podcasts</a></li>
-                        <li><a href="#">Watch Live</a></li>
-                    </ul>
-                </div>
-
-                <div class="category-col">
-                    <h3>Legal & Policy</h3>
-                    <ul>
-                        <li><a href="#">Legal Affairs</a></li>
-                        <li><a href="#">Global Markets</a></li>
-                        <li><a href="#">Opinion</a></li>
-                    </ul>
-                </div>
-
-                <div class="category-col">
-                    <h3>Account</h3>
-                    <ul>
-                        <li><a href="/admin">Admin Portal</a></li>
-                        <li><a href="/admin">Staff Sign In</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Footer Section -->
-            <div class="mega-menu-footer">
-                <div class="social-heading">FOLLOW THE WIREFRAME JOURNAL</div>
-                <div class="social-icons">
-                    <a href="#">&#10224;</a>
-                    <a href="#">&#10225;</a>
-                    <a href="#">&#10226;</a>
-                </div>
-                <p style="font-size: 12px; color: var(--text-muted);">&copy; {% now "Y" %} The WireFrame Journal. All rights reserved.</p>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Main Content -->
     <main class="main-wrapper">
         {% block content %}{% endblock %}
     </main>
 
     <script>
-        function toggleMegaMenu() {
-            const menu = document.getElementById('megaMenu');
-            const btn = document.getElementById('menuToggleBtn');
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-                btn.innerHTML = '&#9776;';
+        function toggleDrawer() {
+            const drawer = document.getElementById('sideDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            if (drawer.style.left === '0px') {
+                drawer.style.left = '-320px';
+                overlay.style.display = 'none';
             } else {
-                menu.style.display = 'block';
-                btn.innerHTML = '&times;';
+                drawer.style.left = '0px';
+                overlay.style.display = 'block';
             }
         }
     </script>
