@@ -1,249 +1,65 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}The Wireframe Journal{% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom styles for the CSS Logo */
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
+    
+    <!-- Site Title & Browser Favicon -->
+    <title>The WireFrame Journal (WJ)</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
-        .logo-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: #e31d2b; /* Red accent */
-            color: white;
-            font-weight: 900;
-            font-size: 24px;
-            border-radius: 4px; /* Slightly rounded corners */
-            position: relative;
-        }
+    <!-- Primary SEO Meta Tags -->
+    <meta name="title" content="The WireFrame Journal (WJ)">
+    <meta name="description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
 
-        /* The little 'Journal' flag */
-        .logo-icon::after {
-            content: 'J';
-            position: absolute;
-            bottom: -5px;
-            right: -5px;
-            background-color: white;
-            color: black;
-            font-size: 10px;
-            padding: 1px 3px;
-            border-radius: 2px;
-            font-weight: bold;
-        }
+    <!-- Open Graph / Search & Social Media Branding -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wireframejournal.onrender.com/">
+    <meta property="og:title" content="The WireFrame Journal (WJ)">
+    <meta property="og:description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
+    <meta property="og:image" content="https://wireframejournal.onrender.com/static/images/logo.png">
 
-        .logo-text-main {
-            font-weight: 800;
-            font-size: 22px;
-            color: white;
-            line-height: 1;
-        }
+    <!-- Twitter Card Branding -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://wireframejournal.onrender.com/">
+    <meta property="twitter:title" content="The WireFrame Journal (WJ)">
+    <meta property="twitter:description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
+    <meta property="twitter:image" content="https://wireframejournal.onrender.com/static/images/logo.png">
 
-        .logo-text-sub {
-            font-weight: 400;
-            font-size: 12px;
-            color: #94a3b8; /* slate-400 */
-            letter-spacing: 2px;
-        }
-    </style>
+    <!-- CSS / Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body>
 
-    <!-- Header Navigation Bar -->
-    <nav class="bg-black text-white border-b border-gray-800 sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            
-            <div class="flex items-center space-x-4">
-                <!-- Hamburger Menu Icon -->
-                <button id="menuToggle" class="p-1 text-white hover:text-gray-300 focus:outline-none">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+    <!-- Navigation Bar -->
+    <nav class="navbar" style="background-color: #000; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="navbar-brand">
+            <a href="{% url 'home' %}" style="color: #fff; text-decoration: none; font-weight: bold; font-size: 1.2rem;">
+                The WireFrame Journal (WJ)
+            </a>
+        </div>
 
-                <!-- STYLISH CSS LOGO -->
-                <a href="{% url 'article_list' %}" class="logo-container hover:opacity-80 transition-opacity">
-                    <div class="logo-icon">W</div>
-                    <div class="flex flex-col">
-                        <span class="logo-text-main">Wireframe</span>
-                        <span class="logo-text-sub">Journal</span>
-                    </div>
+        <div class="navbar-menu">
+            <!-- Only displayed for logged-in Staff / Admin Users -->
+            {% if user.is_authenticated and user.is_staff %}
+                <a href="/admin" class="btn-admin" style="background-color: #e50914; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                    ADMIN PORTAL
                 </a>
-            </div>
-
-            <div class="flex items-center space-x-4">
-                {% if user.is_staff %}
-                    <a href="/admin/" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded text-xs tracking-wider uppercase transition">
-                        Admin Portal
-                    </a>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
     </nav>
-<!-- Site Title & Favicon -->
-<title>The WireFrame Journal (WJ)</title>
-<link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 
-<!-- Primary SEO Meta Tags -->
-<meta name="title" content="The WireFrame Journal (WJ)">
-<meta name="description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
-
-<!-- Open Graph / Search & Social Media Branding -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://wireframejournal.onrender.com/">
-<meta property="og:title" content="The WireFrame Journal (WJ)">
-<meta property="og:description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
-<meta property="og:image" content="https://wireframejournal.onrender.com/static/images/logo.png">
-
-<!-- Twitter Card Branding -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://wireframejournal.onrender.com/">
-<meta property="twitter:title" content="The WireFrame Journal (WJ)">
-<meta property="twitter:description" content="Stay updated with the latest news, coverage, and analysis on The WireFrame Journal.">
-<meta property="twitter:image" content="https://wireframejournal.onrender.com/static/images/logo.png">
-    <!-- Full Screen Mega Overlay Navigation -->
-    <div id="megaOverlay" class="fixed inset-0 bg-white text-black z-50 overflow-y-auto hidden">
-        <div class="max-w-6xl mx-auto px-6 py-8">
-            
-            <!-- Top Controls: Search Form & Close Button -->
-            <div class="flex justify-between items-center mb-8 pb-6 border-b border-gray-200">
-                <form action="{% url 'article_list' %}" method="GET" class="relative w-full max-w-3xl">
-                    <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search stories, categories, or keywords..." class="w-full pl-4 pr-12 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black text-lg">
-                    <button type="submit" class="absolute right-3 top-3 text-gray-500 hover:text-black">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 2 0 0114 0z"></path>
-                        </svg>
-                    </button>
-                </form>
-                <button id="closeMenu" class="ml-6 p-2 text-black hover:text-red-600 focus:outline-none">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Editions Section -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8 pb-6 border-b border-gray-200 text-sm">
-                <div><span class="font-bold text-base">Edition</span></div>
-                <div><a href="{% url 'article_list' %}" class="hover:underline text-gray-700">Africa</a></div>
-                <div><a href="{% url 'article_list' %}" class="hover:underline text-gray-700">International</a></div>
-                <div><a href="{% url 'article_list' %}" class="hover:underline text-gray-700">Arabic</a></div>
-                <div><a href="{% url 'article_list' %}" class="hover:underline text-gray-700">Español</a></div>
-            </div>
-
-            <!-- Categories Grid Layout -->
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
-                <div>
-                    <h3 class="font-bold text-lg mb-3 border-b-2 border-black pb-1">Categories</h3>
-                    <ul class="space-y-2 text-sm text-gray-700 font-medium">
-                        {% for cat in categories %}
-                            <li>
-                                <a href="{% url 'category_articles' cat.slug %}" class="hover:underline hover:text-black">
-                                    {{ cat.name }}
-                                </a>
-                            </li>
-                        {% empty %}
-                            <li><a href="{% url 'article_list' %}" class="hover:underline">Main Feed</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="font-bold text-lg mb-3 border-b-2 border-black pb-1">Market & Tech</h3>
-                    <ul class="space-y-2 text-sm text-gray-700">
-                        <li><a href="{% url 'article_list' %}?q=startups" class="hover:underline">Startups</a></li>
-                        <li><a href="{% url 'article_list' %}?q=market" class="hover:underline">Pre-markets</a></li>
-                        <li><a href="{% url 'article_list' %}?q=tech" class="hover:underline">Innovate</a></li>
-                        <li><a href="{% url 'article_list' %}?q=investing" class="hover:underline">Investing</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="font-bold text-lg mb-3 border-b-2 border-black pb-1">Opinion</h3>
-                    <ul class="space-y-2 text-sm text-gray-700">
-                        <li><a href="{% url 'article_list' %}?q=editorial" class="hover:underline">Editorials</a></li>
-                        <li><a href="{% url 'article_list' %}?q=column" class="hover:underline">Columns</a></li>
-                        <li><a href="{% url 'article_list' %}?q=report" class="hover:underline">Special Reports</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="font-bold text-lg mb-3 border-b-2 border-black pb-1">Watch & Listen</h3>
-                    <ul class="space-y-2 text-sm text-gray-700">
-                        <li><a href="#" class="hover:underline">Live Stream</a></li>
-                        <li><a href="#" class="hover:underline">Podcasts</a></li>
-                        <li><a href="#" class="hover:underline">Video Features</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h3 class="font-bold text-lg mb-3 border-b-2 border-black pb-1">About Journal</h3>
-                    <ul class="space-y-2 text-sm text-gray-700">
-                        <li><a href="#" class="hover:underline">Investigations</a></li>
-                        <li><a href="#" class="hover:underline">Leadership</a></li>
-                        <li><a href="#" class="hover:underline">Newsletters</a></li>
-                        {% if user.is_staff %}
-                            <li class="pt-2"><a href="/admin/" class="text-red-600 font-bold hover:underline">Admin Panel</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Connected Social Links -->
-            <div class="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center text-sm font-semibold">
-                <div class="flex space-x-6 mb-4 md:mb-0">
-                    <span>FOLLOW WIREFRAME</span>
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-blue-600">Facebook</a>
-                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-gray-900">X (Twitter)</a>
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-pink-600">Instagram</a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-blue-700">LinkedIn</a>
-                </div>
-                <div class="text-xs text-gray-500">
-                    &copy; 2026 The Wireframe Journal. All Rights Reserved.
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-8">
-        {% block content %}{% endblock %}
+    <!-- Main Content Container -->
+    <main class="container" style="padding: 20px;">
+        {% block content %}
+        {% endblock %}
     </main>
 
-    <!-- Page Footer -->
-    <footer class="bg-black text-gray-400 py-8 mt-16 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
-            &copy; 2026 The Wireframe Journal. Built for accurate and timely news.
-        </div>
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 20px; border-top: 1px solid #ccc; margin-top: 40px;">
+        <p>&copy; {% now "Y" %} The WireFrame Journal (WJ). All rights reserved.</p>
     </footer>
 
-    <!-- Overlay Toggle Script -->
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const closeMenu = document.getElementById('closeMenu');
-        const megaOverlay = document.getElementById('megaOverlay');
-
-        menuToggle.addEventListener('click', () => {
-            megaOverlay.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden');
-        });
-
-        closeMenu.addEventListener('click', () => {
-            megaOverlay.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        });
-    </script>
 </body>
 </html>
