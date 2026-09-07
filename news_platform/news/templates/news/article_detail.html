@@ -1,0 +1,30 @@
+{% extends 'news/base.html' %}
+
+{% block title %}{{ article.title }} - News Platform{% endblock %}
+
+{% block content %}
+<article class="max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-lg shadow border border-gray-200">
+    <a href="{% url 'article_list' %}" class="text-blue-600 hover:underline text-sm font-medium mb-4 inline-block">&larr; Back to all stories</a>
+    
+    <span class="block text-xs font-semibold text-blue-600 uppercase tracking-wider mt-2">
+        {{ article.category.name }}
+    </span>
+    
+    <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2 mb-4 leading-tight">
+        {{ article.title }}
+    </h1>
+
+    <div class="flex items-center text-sm text-gray-500 mb-6 border-b pb-4">
+        <span class="font-medium text-gray-700 mr-4">By {{ article.author.username }}</span>
+        <span>Published on {{ article.created_at|date:"F d, Y" }}</span>
+    </div>
+
+    {% if article.featured_image %}
+        <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" class="w-full max-h-96 object-cover rounded-lg mb-6">
+    {% endif %}
+
+    <div class="prose max-w-none text-gray-800 text-lg leading-relaxed whitespace-pre-line">
+        {{ article.content }}
+    </div>
+</article>
+{% endblock %}
