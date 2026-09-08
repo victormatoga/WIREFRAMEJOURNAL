@@ -31,3 +31,9 @@ def category_articles(request, slug):
         'category': category,
         'articles': articles,
     })
+from django.shortcuts import render
+from .models import Article
+
+def index(request):
+    articles = Article.objects.all().order_by('-created_at') if hasattr(Article, 'created_at') else Article.objects.all()
+    return render(request, 'news/index.html', {'articles': articles})
