@@ -9,21 +9,23 @@
 
     <style>
         :root {
-            --cnn-red: #cc0000;
-            --border-gray: #e6e6e6;
+            --brand-orange: #f26522;
+            --brand-black: #000000;
             --text-dark: #111111;
-            --text-muted: #666666;
+            --text-muted: #555555;
+            --border-gray: #e5e5e5;
+            --bg-light: #f8f9fa;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #ffffff; color: var(--text-dark); }
 
-        /* Header Navigation */
+        /* Main Header */
         header {
+            background: #ffffff;
             border-bottom: 1px solid var(--border-gray);
             position: sticky;
             top: 0;
-            background: #fff;
             z-index: 1000;
         }
 
@@ -33,178 +35,255 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
-            height: 56px;
+            padding: 0 20px;
+            height: 64px;
         }
 
-        .left-nav { display: flex; align-items: center; gap: 16px; }
+        .left-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
 
-        /* Hamburger Button */
-        .menu-btn {
+        /* Logo Badge */
+        .brand-logo-badge {
+            background-color: var(--brand-orange);
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 900;
+            padding: 8px 16px;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 2px;
+        }
+
+        /* Navigation Links */
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .main-nav a:hover {
+            color: var(--brand-orange);
+        }
+
+        /* Right Actions Section */
+        .right-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .search-btn {
             background: none;
             border: none;
-            font-size: 22px;
+            font-size: 18px;
             cursor: pointer;
-            padding: 4px 8px;
+            color: var(--text-dark);
+            padding: 6px;
+        }
+
+        .signup-btn {
+            background-color: #000000;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .signup-btn:hover {
+            background-color: var(--brand-orange);
+        }
+
+        /* Sub-Header / Trending Bar */
+        .trending-bar {
+            border-bottom: 1px solid var(--border-gray);
+            background-color: #ffffff;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+
+        .trending-container {
+            max-width: 1350px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .trending-label {
+            font-weight: 800;
             color: var(--text-dark);
             display: flex;
             align-items: center;
             gap: 6px;
+            border-bottom: 2px solid var(--text-dark);
+            padding-bottom: 2px;
         }
 
-        .brand-logo {
-            font-size: 26px;
-            font-weight: 900;
-            color: var(--cnn-red);
-            text-decoration: none;
-            letter-spacing: -1px;
-            text-transform: uppercase;
+        .trending-links {
             display: flex;
-            align-items: center;
-        }
-
-        .category-links {
-            display: flex;
-            gap: 18px;
+            gap: 16px;
             list-style: none;
-            margin-left: 10px;
         }
 
-        .category-links a {
+        .trending-links a {
             text-decoration: none;
-            color: var(--text-dark);
-            font-size: 14px;
-            font-weight: bold;
+            color: var(--text-muted);
+            font-weight: 600;
         }
 
-        .category-links a:hover { color: var(--cnn-red); }
-
-        .right-nav { display: flex; align-items: center; gap: 16px; font-size: 14px; }
-        .sign-in-btn {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: bold;
-            border: 1px solid var(--text-dark);
-            padding: 4px 12px;
-            border-radius: 2px;
+        .trending-links a:hover {
+            color: var(--brand-orange);
         }
 
-        /* Slide Drawer Overlay */
-        .drawer-overlay {
+        /* Search Overlay Modal */
+        .search-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
             display: none;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 100px;
             z-index: 2000;
         }
 
-        /* Side Drawer */
-        .side-drawer {
-            position: fixed;
-            top: 0; left: -320px;
-            width: 300px; height: 100%;
-            background: #111;
-            color: #fff;
-            transition: left 0.3s ease;
-            z-index: 2001;
+        .search-modal {
+            background: #ffffff;
             padding: 24px;
-            overflow-y: auto;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        .drawer-header {
+        .search-modal form {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 16px;
-            margin-bottom: 20px;
+            gap: 12px;
         }
 
-        .close-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-        .drawer-section { margin-bottom: 24px; }
-        .drawer-section h4 { color: #888; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
-        .drawer-section ul { list-style: none; }
-        .drawer-section ul li { margin-bottom: 12px; }
-        .drawer-section ul li a { color: #fff; text-decoration: none; font-weight: bold; font-size: 15px; }
-        .drawer-section ul li a:hover { color: var(--cnn-red); }
+        .search-modal input {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: 1px solid var(--border-gray);
+            border-radius: 4px;
+            outline: none;
+        }
 
-        /* Main Container */
-        .main-wrapper { max-width: 1350px; margin: 20px auto; padding: 0 16px; }
+        .search-modal button {
+            background: var(--brand-orange);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Main Wrapper */
+        .main-wrapper {
+            max-width: 1350px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Slide Drawer -->
-    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
-    <aside class="side-drawer" id="sideDrawer">
-        <div class="drawer-header">
-            <span style="font-weight: bold; font-size: 18px; color: var(--cnn-red);">WIRE FRAME</span>
-            <button class="close-btn" onclick="toggleDrawer()">&times;</button>
-        </div>
-
-        <div class="drawer-section">
-            <h4>Categories</h4>
-            <ul>
-                <li><a href="/">Home</a></li>
-                {% for category in categories %}
-                    <li><a href="?category={{ category.id }}">{{ category.name }}</a></li>
-                {% empty %}
-                    <li><a href="#">Fashion & Designing</a></li>
-                    <li><a href="#">Entertainment</a></li>
-                    <li><a href="#">Sports</a></li>
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Technology</a></li>
-                    <li><a href="#">Market</a></li>
-                    <li><a href="#">Legal</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="drawer-section">
-            <h4>Account & Management</h4>
-            <ul>
-                <li><a href="/admin">Admin Portal</a></li>
-            </ul>
-        </div>
-    </aside>
-
-    <!-- Header -->
+    <!-- Main Navigation Header -->
     <header>
         <div class="header-container">
-            <div class="left-nav">
-                <button class="menu-btn" onclick="toggleDrawer()">&#9776;</button>
-                <a href="/" class="brand-logo">WJ</a>
-                <ul class="category-links">
-                    <li><a href="#">Fashion</a></li>
-                    <li><a href="#">Entertainment</a></li>
-                    <li><a href="#">Sports</a></li>
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Tech</a></li>
-                    <li><a href="#">Legal</a></li>
-                    <li><a href="#">Sustainability</a></li>
+            <div class="left-section">
+                <a href="/" class="brand-logo-badge">
+                    <span>WJ</span>
+                </a>
+                
+                <ul class="main-nav">
+                    <li><a href="/">News</a></li>
+                    {% for category in categories %}
+                        <li><a href="?category={{ category.id }}">{{ category.name }}</a></li>
+                    {% empty %}
+                        <li><a href="#">Fashion</a></li>
+                        <li><a href="#">Entertainment</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">Business</a></li>
+                        <li><a href="#">Tech</a></li>
+                        <li><a href="#">Legal</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                    {% endfor %}
                 </ul>
             </div>
-            <div class="right-nav">
-                <a href="/admin" class="sign-in-btn">Sign In</a>
+
+            <div class="right-section">
+                <!-- Search Button -->
+                <button class="search-btn" onclick="toggleSearch()" title="Search">&#128080;</button>
+                
+                <!-- Sign Up for Notifications Button -->
+                <a href="/admin" class="signup-btn">Sign up</a>
             </div>
         </div>
     </header>
 
+    <!-- Sub-Header / Trending Bar -->
+    <div class="trending-bar">
+        <div class="trending-container">
+            <span class="trending-label">&#10548; Trending</span>
+            <ul class="trending-links">
+                <li><a href="#">Sustainability Updates</a></li>
+                <li><a href="#">Tech Innovations</a></li>
+                <li><a href="#">Global Markets</a></li>
+                <li><a href="#">Legal Insights</a></li>
+                <li><a href="#">Fashion Trends</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Search Modal Overlay -->
+    <div class="search-overlay" id="searchOverlay" onclick="closeSearchOnBg(event)">
+        <div class="search-modal">
+            <form action="/" method="GET">
+                <input type="text" name="q" placeholder="Search news stories..." required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Page Content -->
     <main class="main-wrapper">
         {% block content %}{% endblock %}
     </main>
 
     <script>
-        function toggleDrawer() {
-            const drawer = document.getElementById('sideDrawer');
-            const overlay = document.getElementById('drawerOverlay');
-            if (drawer.style.left === '0px') {
-                drawer.style.left = '-320px';
-                overlay.style.display = 'none';
-            } else {
-                drawer.style.left = '0px';
-                overlay.style.display = 'block';
+        function toggleSearch() {
+            const modal = document.getElementById('searchOverlay');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function closeSearchOnBg(event) {
+            if (event.target.id === 'searchOverlay') {
+                document.getElementById('searchOverlay').style.display = 'none';
             }
         }
     </script>
