@@ -2,7 +2,6 @@
 
 {% block content %}
 <style>
-    /* 3-Column CNN News Layout */
     .cnn-grid {
         display: grid;
         grid-template-columns: 280px 1fr 300px;
@@ -13,34 +12,44 @@
         .cnn-grid { grid-template-columns: 1fr; }
     }
 
-    /* Column Styles */
     .col-left { border-right: 1px solid var(--border-gray); padding-right: 16px; }
     .col-center { padding: 0 8px; }
     .col-right { border-left: 1px solid var(--border-gray); padding-left: 16px; }
 
-    .story-card { margin-bottom: 20px; text-decoration: none; color: inherit; display: block; }
-    .story-card img { width: 100%; height: auto; object-fit: cover; border-radius: 2px; }
-    .story-card h3 { font-size: 18px; font-weight: bold; margin: 8px 0; line-height: 1.3; }
-    .story-card h3:hover { text-decoration: underline; }
+    .story-card { margin-bottom: 24px; text-decoration: none; color: inherit; display: block; }
+    .story-card img { width: 100%; height: auto; max-height: 220px; object-fit: cover; border-radius: 4px; margin-bottom: 8px; }
+    .story-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; color: var(--text-dark); }
+    .story-card h3:hover { color: var(--brand-blue); }
     .story-card p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
-    
-    .hero-story h2 { font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
-    .hero-story img { width: 100%; max-height: 380px; object-fit: cover; margin-bottom: 12px; }
+    .story-meta { font-size: 11px; color: #888; margin-top: 6px; }
+
+    .hero-story h2 { font-size: 30px; font-weight: 800; line-height: 1.15; margin-bottom: 12px; color: var(--text-dark); }
+    .hero-story h2:hover { color: var(--brand-blue); }
+    .hero-story img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 4px; margin-bottom: 12px; }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        grid-column: 1 / -1;
+        background: #f8f9fa;
+        border: 1px dashed #ccc;
+        border-radius: 8px;
+    }
+    .empty-state h3 { font-size: 20px; color: var(--text-dark); margin-bottom: 8px; }
+    .empty-state p { color: var(--text-muted); }
 </style>
 
+{% if articles %}
 <div class="cnn-grid">
     <!-- Left Column -->
     <div class="col-left">
         {% for article in articles|slice:":2" %}
             <a href="{% url 'article_detail' article.id %}" class="story-card">
-                {% if article.image %}<img src="{{ article.image.url }}" alt="">{% endif %}
+                {% if article.image %}<img src="{{ article.image.url }}" alt="{{ article.title }}">{% endif %}
                 <h3>{{ article.title }}</h3>
-                <p>{{ article.content|truncatewords:12 }}</p>
+                <p>{{ article.content|truncatewords:15 }}</p>
+                <div class="story-meta">By {{ article.author.username|default:"Admin" }} • {{ article.created_at|date:"M d, Y" }}</div>
             </a>
-        {% empty %}
-            <div class="story-card">
-                <h3>Democrats might win in the midterms — but a whole new set of problems awaits</h3>
-            </div>
         {% endfor %}
     </div>
 
@@ -50,30 +59,32 @@
             {% if hero %}
                 <a href="{% url 'article_detail' hero.id %}" class="story-card hero-story">
                     <h2>{{ hero.title }}</h2>
-                    {% if hero.image %}<img src="{{ hero.image.url }}" alt="">{% endif %}
-                    <p style="font-size: 15px; color: #333;">{{ hero.content|truncatewords:30 }}</p>
+                    {% if hero.image %}<img src="{{ hero.image.url }}" alt="{{ hero.title }}">{% endif %}
+                    <p style="font-size: 15px; color: #333;">{{ hero.content|truncatewords:35 }}</p>
+                    <div class="story-meta" style="font-size: 12px;">By {{ hero.author.username|default:"Admin" }} • {{ hero.created_at|date:"M d, Y" }}</div>
                 </a>
-            {% else %}
-                <div class="story-card hero-story">
-                    <h2>The far-right party's vision for the future</h2>
-                    <p>After surging to first place in local elections, policies are being pushed across all major sectors.</p>
-                </div>
             {% endif %}
         {% endwith %}
     </div>
 
     <!-- Right Sidebar Column -->
     <div class="col-right">
-        <h4 style="font-size: 14px; text-transform: uppercase; border-bottom: 2px solid var(--cnn-red); padding-bottom: 4px; margin-bottom: 12px;">Top News</h4>
+        <h4 style="font-size: 14px; text-transform: uppercase; border-bottom: 2px solid var(--brand-blue); padding-bottom: 4px; margin-bottom: 16px; color: var(--brand-blue);">
+            Top Stories
+        </h4>
         {% for article in articles|slice:"2:" %}
             <a href="{% url 'article_detail' article.id %}" class="story-card">
                 <h3>{{ article.title }}</h3>
+                <p>{{ article.content|truncatewords:10 }}</p>
+                <div class="story-meta">{{ article.created_at|date:"M d, Y" }}</div>
             </a>
-        {% empty %}
-            <div class="story-card">
-                <h3>Catch up on today's global news and analysis</h3>
-            </div>
         {% endfor %}
     </div>
 </div>
+{% else %}
+<div class="empty-state">
+    <h3>No articles found</h3>
+    <p>There are currently no published stories in this section. Stories published from the Admin Portal will appear here.</p>
+</div>
+{% endif %}
 {% endblock %}

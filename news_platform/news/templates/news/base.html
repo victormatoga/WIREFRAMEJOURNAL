@@ -9,7 +9,8 @@
 
     <style>
         :root {
-            --brand-orange: #f26522;
+            --brand-blue: #0056b3;
+            --brand-blue-hover: #003d82;
             --brand-black: #000000;
             --text-dark: #111111;
             --text-muted: #555555;
@@ -18,7 +19,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #ffffff; color: var(--text-dark); }
+        body { background-color: #ffffff; color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
 
         /* Main Header */
         header {
@@ -36,55 +37,77 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
-            height: 64px;
+            height: 70px;
         }
 
         .left-section {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
-        /* Logo Badge */
-        .brand-logo-badge {
-            background-color: var(--brand-orange);
-            color: #ffffff;
-            font-size: 22px;
-            font-weight: 900;
-            padding: 8px 16px;
-            text-decoration: none;
-            letter-spacing: -0.5px;
+        /* Brand Logo with Image and Full Name */
+        .brand-logo-container {
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-radius: 2px;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-logo-badge {
+            background-color: var(--brand-blue);
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 900;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-logo-badge img {
+            height: 28px;
+            width: auto;
+        }
+
+        .brand-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--brand-blue);
+            letter-spacing: -0.5px;
+            white-space: nowrap;
         }
 
         /* Navigation Links */
         .main-nav {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 18px;
             list-style: none;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
         .main-nav a {
             text-decoration: none;
             color: var(--text-dark);
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
+            padding: 4px 6px;
             transition: color 0.2s;
         }
 
-        .main-nav a:hover {
-            color: var(--brand-orange);
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--brand-blue);
+            border-bottom: 2px solid var(--brand-blue);
         }
 
         /* Right Actions Section */
         .right-section {
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 16px;
         }
 
         .search-btn {
@@ -97,25 +120,25 @@
         }
 
         .signup-btn {
-            background-color: #000000;
+            background-color: var(--brand-blue);
             color: #ffffff;
             font-weight: 700;
             font-size: 14px;
-            padding: 8px 20px;
+            padding: 8px 18px;
             border-radius: 20px;
             text-decoration: none;
             transition: background 0.2s;
         }
 
         .signup-btn:hover {
-            background-color: var(--brand-orange);
+            background-color: var(--brand-blue-hover);
         }
 
         /* Sub-Header / Trending Bar */
         .trending-bar {
             border-bottom: 1px solid var(--border-gray);
-            background-color: #ffffff;
-            padding: 10px 0;
+            background-color: var(--bg-light);
+            padding: 8px 0;
             font-size: 13px;
         }
 
@@ -125,19 +148,17 @@
             padding: 0 20px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
             overflow-x: auto;
             white-space: nowrap;
         }
 
         .trending-label {
             font-weight: 800;
-            color: var(--text-dark);
+            color: var(--brand-blue);
             display: flex;
             align-items: center;
             gap: 6px;
-            border-bottom: 2px solid var(--text-dark);
-            padding-bottom: 2px;
         }
 
         .trending-links {
@@ -153,7 +174,7 @@
         }
 
         .trending-links a:hover {
-            color: var(--brand-orange);
+            color: var(--brand-blue);
         }
 
         /* Search Overlay Modal */
@@ -193,7 +214,7 @@
         }
 
         .search-modal button {
-            background: var(--brand-orange);
+            background: var(--brand-blue);
             color: white;
             border: none;
             padding: 12px 20px;
@@ -207,6 +228,47 @@
             max-width: 1350px;
             margin: 24px auto;
             padding: 0 20px;
+            flex: 1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d1117;
+            color: #8b949e;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 3px solid var(--brand-blue);
+            font-size: 14px;
+        }
+
+        .footer-container {
+            max-width: 1350px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+        }
+
+        .footer-title {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .footer-contact {
+            line-height: 1.6;
+            color: #c9d1d9;
+        }
+
+        .footer-contact a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -216,31 +278,39 @@
     <header>
         <div class="header-container">
             <div class="left-section">
-                <a href="/" class="brand-logo-badge">
-                    <span>WJ</span>
+                <a href="/" class="brand-logo-container">
+                    <div class="brand-logo-badge">
+                        <img src="{% static 'images/logo.png' %}" alt="Logo" onerror="this.style.display='none'; this.parentNode.innerText='WJ';">
+                    </div>
+                    <span class="brand-title">The WireFrame Journal</span>
                 </a>
                 
                 <ul class="main-nav">
-                    <li><a href="/">News</a></li>
-                    {% for category in categories %}
-                        <li><a href="?category={{ category.id }}">{{ category.name }}</a></li>
+                    <li><a href="/" class="{% if not current_category %}active{% endif %}">All News</a></li>
+                    {% for cat in categories %}
+                        <li>
+                            <a href="/?category={{ cat.id }}" class="{% if current_category == cat.id|stringformat:'s' %}active{% endif %}">
+                                {{ cat.name }}
+                            </a>
+                        </li>
                     {% empty %}
-                        <li><a href="#">Fashion</a></li>
-                        <li><a href="#">Entertainment</a></li>
-                        <li><a href="#">Sports</a></li>
-                        <li><a href="#">Business</a></li>
-                        <li><a href="#">Tech</a></li>
-                        <li><a href="#">Legal</a></li>
-                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="/?category=fashion">Fashion and Designing</a></li>
+                        <li><a href="/?category=entertainment">Entertainment</a></li>
+                        <li><a href="/?category=sports">Sports</a></li>
+                        <li><a href="/?category=business">Business</a></li>
+                        <li><a href="/?category=technology">Technology</a></li>
+                        <li><a href="/?category=market">Market</a></li>
+                        <li><a href="/?category=legal">Legal</a></li>
+                        <li><a href="/?category=sustainability">Sustainability</a></li>
                     {% endfor %}
                 </ul>
             </div>
 
             <div class="right-section">
                 <!-- Search Button -->
-                <button class="search-btn" onclick="toggleSearch()" title="Search">&#128080;</button>
+                <button class="search-btn" onclick="toggleSearch()" title="Search">🔍</button>
                 
-                <!-- Sign Up for Notifications Button -->
+                <!-- Sign Up Button -->
                 <a href="/admin" class="signup-btn">Sign up</a>
             </div>
         </div>
@@ -249,13 +319,17 @@
     <!-- Sub-Header / Trending Bar -->
     <div class="trending-bar">
         <div class="trending-container">
-            <span class="trending-label">&#10548; Trending</span>
+            <span class="trending-label">📈 Trending</span>
             <ul class="trending-links">
-                <li><a href="#">Sustainability Updates</a></li>
-                <li><a href="#">Tech Innovations</a></li>
-                <li><a href="#">Global Markets</a></li>
-                <li><a href="#">Legal Insights</a></li>
-                <li><a href="#">Fashion Trends</a></li>
+                {% for cat in categories|slice:":5" %}
+                    <li><a href="/?category={{ cat.id }}">{{ cat.name }}</a></li>
+                {% empty %}
+                    <li><a href="/?category=sustainability">Sustainability Updates</a></li>
+                    <li><a href="/?category=technology">Tech Innovations</a></li>
+                    <li><a href="/?category=market">Global Markets</a></li>
+                    <li><a href="/?category=legal">Legal Insights</a></li>
+                    <li><a href="/?category=fashion">Fashion Trends</a></li>
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -274,6 +348,18 @@
     <main class="main-wrapper">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-title">The WireFrame Journal</div>
+            <div class="footer-contact">
+                &copy; {% now "Y" %} All rights reserved.<br>
+                Victor_Matoga, P/Bag 0096, Lilongwe, Malawi.<br>
+                Tel: <a href="tel:+265994687428">+265 994 687 428</a> | Email: <a href="mailto:victormatoga67@gmail.com">victormatoga67@gmail.com</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         function toggleSearch() {
