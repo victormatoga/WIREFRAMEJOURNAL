@@ -16,10 +16,29 @@
             --text-muted: #555555;
             --border-gray: #e5e5e5;
             --bg-light: #f8f9fa;
+            --base-font-size: 16px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #ffffff; color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
+        html { font-size: var(--base-font-size); }
+        body { background-color: #ffffff; color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; transition: background-color 0.3s, color 0.3s; }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+            --text-dark: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-gray: #374151;
+            --bg-light: #1f2937;
+        }
+        body.dark-mode header, body.dark-mode .search-modal {
+            background-color: #1f2937;
+            border-bottom-color: #374151;
+        }
+        body.dark-mode .main-nav a, body.dark-mode .search-btn {
+            color: #e0e0e0;
+        }
 
         /* Main Header */
         header {
@@ -61,7 +80,7 @@
         .brand-logo-badge {
             background-color: var(--brand-blue);
             color: #ffffff;
-            font-size: 20px;
+            font-size: 1.25rem;
             font-weight: 900;
             padding: 8px 12px;
             border-radius: 4px;
@@ -76,7 +95,7 @@
         }
 
         .brand-title {
-            font-size: 20px;
+            font-size: 1.25rem;
             font-weight: 800;
             color: var(--brand-blue);
             letter-spacing: -0.5px;
@@ -97,7 +116,7 @@
             text-decoration: none;
             color: var(--text-dark);
             font-weight: 700;
-            font-size: 14px;
+            font-size: 0.875rem;
             padding: 4px 6px;
             transition: color 0.2s;
         }
@@ -117,7 +136,7 @@
         .search-btn {
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 1.25rem;
             cursor: pointer;
             color: var(--text-dark);
             padding: 6px;
@@ -128,7 +147,7 @@
             border-bottom: 1px solid var(--border-gray);
             background-color: var(--bg-light);
             padding: 8px 0;
-            font-size: 13px;
+            font-size: 0.8125rem;
         }
 
         .trending-container {
@@ -201,11 +220,50 @@
 
         .close-btn { background: none; border: none; color: #ffffff; font-size: 24px; cursor: pointer; }
         .drawer-section { margin-bottom: 28px; }
-        .drawer-section h4 { color: #9ca3af; font-size: 12px; text-transform: uppercase; margin-bottom: 14px; letter-spacing: 1px; font-weight: 700; }
+        .drawer-section h4 { color: #9ca3af; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 14px; letter-spacing: 1px; font-weight: 700; }
         .drawer-section ul { list-style: none; }
         .drawer-section ul li { margin-bottom: 12px; }
-        .drawer-section ul li a { color: #f3f4f6; text-decoration: none; font-weight: 600; font-size: 15px; display: block; transition: color 0.2s; }
+        .drawer-section ul li a { color: #f3f4f6; text-decoration: none; font-weight: 600; font-size: 0.9375rem; display: block; transition: color 0.2s; }
         .drawer-section ul li a:hover { color: var(--brand-blue); }
+
+        /* Settings UI Components */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 0.875rem;
+            color: #e5e7eb;
+        }
+
+        .setting-control select, .setting-control input {
+            background: #1f2937;
+            color: #ffffff;
+            border: 1px solid #374151;
+            padding: 6px 10px;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #374151; transition: .3s; border-radius: 22px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--brand-blue); }
+        input:checked + .slider:before { transform: translateX(22px); }
 
         /* Search Overlay Modal */
         .search-overlay {
@@ -229,15 +287,12 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        .search-modal form {
-            display: flex;
-            gap: 12px;
-        }
+        .search-modal form { display: flex; gap: 12px; }
 
         .search-modal input {
             flex: 1;
             padding: 12px 16px;
-            font-size: 16px;
+            font-size: 1rem;
             border: 1px solid var(--border-gray);
             border-radius: 4px;
             outline: none;
@@ -268,7 +323,7 @@
             padding: 40px 20px;
             margin-top: 60px;
             border-top: 3px solid var(--brand-blue);
-            font-size: 14px;
+            font-size: 0.875rem;
         }
 
         .footer-container {
@@ -281,40 +336,26 @@
             gap: 12px;
         }
 
-        .footer-title {
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .footer-contact {
-            line-height: 1.6;
-            color: #c9d1d9;
-        }
-
-        .footer-contact a {
-            color: #58a6ff;
-            text-decoration: none;
-        }
-
-        .footer-contact a:hover {
-            text-decoration: underline;
-        }
+        .footer-title { color: #ffffff; font-size: 1.125rem; font-weight: 700; }
+        .footer-contact { line-height: 1.6; color: #c9d1d9; }
+        .footer-contact a { color: #58a6ff; text-decoration: none; }
+        .footer-contact a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
-    <!-- Slide Drawer Overlay -->
+    <!-- Side Drawer Overlay -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
     
     <!-- Side Drawer Component -->
     <aside class="side-drawer" id="sideDrawer">
         <div>
             <div class="drawer-header">
-                <span style="font-weight: 800; font-size: 16px; color: #ffffff;">The WireFrame Journal</span>
+                <span style="font-weight: 800; font-size: 1rem; color: #ffffff;">The WireFrame Journal</span>
                 <button class="close-btn" onclick="toggleDrawer()">&times;</button>
             </div>
 
+            <!-- Category Links -->
             <div class="drawer-section">
                 <h4>Categories</h4>
                 <ul>
@@ -334,18 +375,43 @@
                 </ul>
             </div>
 
+            <!-- Client App Settings -->
             <div class="drawer-section">
-                <h4>App Settings & Admin</h4>
-                <ul>
-                    <li><a href="/admin">Admin Portal</a></li>
-                    <li><a href="/admin/news/article/add/">Create New Story</a></li>
-                    <li><a href="/admin/news/category/">Manage Categories</a></li>
-                    <li><a href="/admin/password_change/">Change Admin Password</a></li>
-                </ul>
+                <h4>App Settings</h4>
+                
+                <!-- Display Settings (Dark Mode) -->
+                <div class="setting-item">
+                    <span>Dark Theme</span>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle" onchange="toggleDarkTheme(this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Font Size Settings -->
+                <div class="setting-item">
+                    <span>Font Size</span>
+                    <div class="setting-control">
+                        <select id="fontSizeSelect" onchange="changeFontSize(this.value)">
+                            <option value="14px">Small</option>
+                            <option value="16px" selected>Medium</option>
+                            <option value="18px">Large</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="setting-item">
+                    <span>Push Notifications</span>
+                    <label class="switch">
+                        <input type="checkbox" id="notifToggle" onchange="toggleNotifications(this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
 
-        <div style="font-size: 11px; color: #6b7280; border-top: 1px solid #374151; padding-top: 16px;">
+        <div style="font-size: 0.6875rem; color: #6b7280; border-top: 1px solid #374151; padding-top: 16px;">
             &copy; {% now "Y" %} The WireFrame Journal Platform
         </div>
     </aside>
@@ -354,7 +420,7 @@
     <header>
         <div class="header-container">
             <div class="left-section">
-                <button class="brand-logo-btn" onclick="toggleDrawer()" title="Open Menu">
+                <button class="brand-logo-btn" onclick="toggleDrawer()" title="Open Menu & Settings">
                     <div class="brand-logo-badge">
                         <img src="{% static 'images/logo.png' %}" alt="Logo" onerror="this.style.display='none'; this.parentNode.innerText='WJ';">
                     </div>
@@ -383,7 +449,6 @@
             </div>
 
             <div class="right-section">
-                <!-- Search Button -->
                 <button class="search-btn" onclick="toggleSearch()" title="Search">🔍</button>
             </div>
         </div>
@@ -457,6 +522,49 @@
                 document.getElementById('searchOverlay').style.display = 'none';
             }
         }
+
+        /* Settings Functions */
+        function toggleDarkTheme(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function changeFontSize(size) {
+            document.documentElement.style.fontSize = size;
+            localStorage.setItem('fontSize', size);
+        }
+
+        function toggleNotifications(enabled) {
+            localStorage.setItem('notifications', enabled);
+            if (enabled && 'Notification' in window && Notification.permission !== 'granted') {
+                Notification.requestPermission();
+            }
+        }
+
+        /* Load User Saved Settings on Startup */
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').checked = true;
+            }
+
+            const savedFontSize = localStorage.getItem('fontSize');
+            if (savedFontSize) {
+                document.documentElement.style.fontSize = savedFontSize;
+                document.getElementById('fontSizeSelect').value = savedFontSize;
+            }
+
+            const savedNotifs = localStorage.getItem('notifications');
+            if (savedNotifs === 'true') {
+                document.getElementById('notifToggle').checked = true;
+            }
+        });
     </script>
 </body>
 </html>
