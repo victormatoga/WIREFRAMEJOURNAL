@@ -40,19 +40,16 @@
 {% if articles %}
 <div class="cnn-grid">
     <!-- Left Column: Story Feed -->
-    <div class="col-left">
+   <div class="col-left">
         {% for article in articles|slice:"1:" %}
-            <a href="{% url 'article_detail' article.id %}" class="story-card">
+            <a href="{% url 'news:article_detail' article.id %}" class="story-card">
                 {% if article.image %}<img src="{{ article.image.url }}" alt="{{ article.title }}">{% endif %}
                 <h3>{{ article.title }}</h3>
                 <p>{{ article.content|truncatewords:15 }}</p>
-                <div class="story-meta">By {{ article.author.username|default:"Admin" }} • {{ article.created_at|date:"M d, Y" }}</div>
+                <div class="story-meta">By {{ article.author.username|default:"Admin" }}</div>
             </a>
         {% empty %}
-            <a href="{% url 'article_detail' articles.0.id %}" class="story-card">
-                <h3>{{ articles.0.title }}</h3>
-                <p>{{ articles.0.content|truncatewords:15 }}</p>
-            </a>
+            <p>No extra stories available.</p>
         {% endfor %}
     </div>
 
@@ -60,11 +57,11 @@
     <div class="col-center">
         {% with hero=articles|first %}
             {% if hero %}
-                <a href="{% url 'article_detail' hero.id %}" class="story-card hero-story">
+                <a href="{% url 'news:article_detail' hero.id %}" class="story-card hero-story">
                     <h2>{{ hero.title }}</h2>
                     {% if hero.image %}<img src="{{ hero.image.url }}" alt="{{ hero.title }}">{% endif %}
                     <p style="font-size: 16px; color: #333;">{{ hero.content|truncatewords:45 }}</p>
-                    <div class="story-meta" style="font-size: 13px;">By {{ hero.author.username|default:"Admin" }} • {{ hero.created_at|date:"M d, Y" }}</div>
+                    <div class="story-meta" style="font-size: 13px;">By {{ hero.author.username|default:"Admin" }}</div>
                 </a>
             {% endif %}
         {% endwith %}
