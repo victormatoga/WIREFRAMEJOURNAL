@@ -46,12 +46,16 @@
             gap: 25px;
         }
 
-        /* Brand Logo with Image and Full Name */
-        .brand-logo-container {
+        /* Clickable Brand Logo Triggering Side Drawer */
+        .brand-logo-btn {
             display: flex;
             align-items: center;
             gap: 12px;
-            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            padding: 0;
         }
 
         .brand-logo-badge {
@@ -113,25 +117,10 @@
         .search-btn {
             background: none;
             border: none;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
             color: var(--text-dark);
             padding: 6px;
-        }
-
-        .signup-btn {
-            background-color: var(--brand-blue);
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 14px;
-            padding: 8px 18px;
-            border-radius: 20px;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .signup-btn:hover {
-            background-color: var(--brand-blue-hover);
         }
 
         /* Sub-Header / Trending Bar */
@@ -176,6 +165,47 @@
         .trending-links a:hover {
             color: var(--brand-blue);
         }
+
+        /* Side Drawer Styling */
+        .drawer-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 2000;
+        }
+
+        .side-drawer {
+            position: fixed;
+            top: 0; left: -320px;
+            width: 300px; height: 100%;
+            background: #111827;
+            color: #ffffff;
+            transition: left 0.3s ease;
+            z-index: 2001;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .close-btn { background: none; border: none; color: #ffffff; font-size: 24px; cursor: pointer; }
+        .drawer-section { margin-bottom: 28px; }
+        .drawer-section h4 { color: #9ca3af; font-size: 12px; text-transform: uppercase; margin-bottom: 14px; letter-spacing: 1px; font-weight: 700; }
+        .drawer-section ul { list-style: none; }
+        .drawer-section ul li { margin-bottom: 12px; }
+        .drawer-section ul li a { color: #f3f4f6; text-decoration: none; font-weight: 600; font-size: 15px; display: block; transition: color 0.2s; }
+        .drawer-section ul li a:hover { color: var(--brand-blue); }
 
         /* Search Overlay Modal */
         .search-overlay {
@@ -274,16 +304,62 @@
 </head>
 <body>
 
+    <!-- Slide Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+    
+    <!-- Side Drawer Component -->
+    <aside class="side-drawer" id="sideDrawer">
+        <div>
+            <div class="drawer-header">
+                <span style="font-weight: 800; font-size: 16px; color: #ffffff;">The WireFrame Journal</span>
+                <button class="close-btn" onclick="toggleDrawer()">&times;</button>
+            </div>
+
+            <div class="drawer-section">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="/">All News</a></li>
+                    {% for cat in categories %}
+                        <li><a href="/?category={{ cat.id }}">{{ cat.name }}</a></li>
+                    {% empty %}
+                        <li><a href="/?category=fashion">Fashion and Designing</a></li>
+                        <li><a href="/?category=entertainment">Entertainment</a></li>
+                        <li><a href="/?category=sports">Sports</a></li>
+                        <li><a href="/?category=business">Business</a></li>
+                        <li><a href="/?category=technology">Technology</a></li>
+                        <li><a href="/?category=market">Market</a></li>
+                        <li><a href="/?category=legal">Legal</a></li>
+                        <li><a href="/?category=sustainability">Sustainability</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="drawer-section">
+                <h4>App Settings & Admin</h4>
+                <ul>
+                    <li><a href="/admin">Admin Portal</a></li>
+                    <li><a href="/admin/news/article/add/">Create New Story</a></li>
+                    <li><a href="/admin/news/category/">Manage Categories</a></li>
+                    <li><a href="/admin/password_change/">Change Admin Password</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="font-size: 11px; color: #6b7280; border-top: 1px solid #374151; padding-top: 16px;">
+            &copy; {% now "Y" %} The WireFrame Journal Platform
+        </div>
+    </aside>
+
     <!-- Main Navigation Header -->
     <header>
         <div class="header-container">
             <div class="left-section">
-                <a href="/" class="brand-logo-container">
+                <button class="brand-logo-btn" onclick="toggleDrawer()" title="Open Menu">
                     <div class="brand-logo-badge">
                         <img src="{% static 'images/logo.png' %}" alt="Logo" onerror="this.style.display='none'; this.parentNode.innerText='WJ';">
                     </div>
                     <span class="brand-title">The WireFrame Journal</span>
-                </a>
+                </button>
                 
                 <ul class="main-nav">
                     <li><a href="/" class="{% if not current_category %}active{% endif %}">All News</a></li>
@@ -309,9 +385,6 @@
             <div class="right-section">
                 <!-- Search Button -->
                 <button class="search-btn" onclick="toggleSearch()" title="Search">🔍</button>
-                
-                <!-- Sign Up Button -->
-                <a href="/admin" class="signup-btn">Sign up</a>
             </div>
         </div>
     </header>
@@ -362,6 +435,18 @@
     </footer>
 
     <script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('sideDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            if (drawer.style.left === '0px') {
+                drawer.style.left = '-320px';
+                overlay.style.display = 'none';
+            } else {
+                drawer.style.left = '0px';
+                overlay.style.display = 'block';
+            }
+        }
+
         function toggleSearch() {
             const modal = document.getElementById('searchOverlay');
             modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
