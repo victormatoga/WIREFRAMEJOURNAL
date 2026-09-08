@@ -142,49 +142,6 @@
             padding: 6px;
         }
 
-        /* Sub-Header / Trending Bar */
-        .trending-bar {
-            border-bottom: 1px solid var(--border-gray);
-            background-color: var(--bg-light);
-            padding: 8px 0;
-            font-size: 0.8125rem;
-        }
-
-        .trending-container {
-            max-width: 1350px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .trending-label {
-            font-weight: 800;
-            color: var(--brand-blue);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .trending-links {
-            display: flex;
-            gap: 16px;
-            list-style: none;
-        }
-
-        .trending-links a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .trending-links a:hover {
-            color: var(--brand-blue);
-        }
-
         /* Side Drawer Styling */
         .drawer-overlay {
             position: fixed;
@@ -453,24 +410,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Sub-Header / Trending Bar -->
-    <div class="trending-bar">
-        <div class="trending-container">
-            <span class="trending-label">📈 Trending</span>
-            <ul class="trending-links">
-                {% for cat in categories|slice:":5" %}
-                    <li><a href="/?category={{ cat.id }}">{{ cat.name }}</a></li>
-                {% empty %}
-                    <li><a href="/?category=sustainability">Sustainability Updates</a></li>
-                    <li><a href="/?category=technology">Tech Innovations</a></li>
-                    <li><a href="/?category=market">Global Markets</a></li>
-                    <li><a href="/?category=legal">Legal Insights</a></li>
-                    <li><a href="/?category=fashion">Fashion Trends</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
 
     <!-- Search Modal Overlay -->
     <div class="search-overlay" id="searchOverlay" onclick="closeSearchOnBg(event)">
