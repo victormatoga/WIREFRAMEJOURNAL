@@ -36,4 +36,4 @@ from .models import Article
 
 def index(request):
     articles = Article.objects.all().order_by('-created_at') if hasattr(Article, 'created_at') else Article.objects.all()
-    return render(request, 'index.html', {'articles': articles})
+    return render(request, 'news/index.html', {'articles': articles})
