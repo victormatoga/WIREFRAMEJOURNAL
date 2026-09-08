@@ -20,8 +20,8 @@ def article_list(request):
         'query': query,
     })
 
-def article_detail(request, slug):
-    article = get_object_or_404(Article, slug=slug, is_published=True)
+def article_detail(request, pk):
+    article = get_object_or_404(Article, pk=pk, is_published=True)
     return render(request, 'news/article_detail.html', {'article': article})
 
 def category_articles(request, slug):
