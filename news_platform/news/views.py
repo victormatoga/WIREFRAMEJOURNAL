@@ -36,4 +36,5 @@ from .models import Article
 
 def index(request):
     articles = Article.objects.all().order_by('-created_at') if hasattr(Article, 'created_at') else Article.objects.all()
-    return render(request, 'news/index.html', {'articles': articles})
+    # Change 'news/index.html' to match your actual file name (e.g., 'index.html' or 'home.html')
+    return render(request, 'index.html', {'articles': articles})
